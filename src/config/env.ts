@@ -4,6 +4,7 @@ export class EnvConfig {
   readonly defaultPassword: string;
   readonly usCountryCode: string;
   readonly euCountryCode: string;
+  readonly nonEuCountryCode: string;
   readonly currencyHeaderName: string;
 
   constructor(env: NodeJS.ProcessEnv) {
@@ -12,6 +13,7 @@ export class EnvConfig {
     this.defaultPassword = env.E2E_DEFAULT_PASSWORD || 'admin';
     this.usCountryCode = env.E2E_US_COUNTRY_CODE || 'US';
     this.euCountryCode = env.E2E_EU_COUNTRY_CODE || 'DE';
+    this.nonEuCountryCode = env.E2E_NON_EU_COUNTRY_CODE || 'GB';
     this.currencyHeaderName = env.E2E_CURRENCY_HEADER_NAME || 'x-country';
   }
 }

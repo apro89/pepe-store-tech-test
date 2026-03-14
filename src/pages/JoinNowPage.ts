@@ -72,5 +72,16 @@ export class JoinNowPage extends BasePage {
     const match = text?.match(/\d+\.\d+/);
     return match ? match[0] : '';
   }
+
+  /** All price rows (Full access and 7 days Trial). Used to assert currency does not mix. */
+  getAllPriceRows(): Locator[] {
+    return [this.getFullAccessRow(), this.getTrialRow()];
+  }
+
+  /** Returns the currency symbol displayed in the given price row ('$' or '€'). */
+  async getCurrencySymbolInRow(row: Locator): Promise<string> {
+    const hasDollar = await row.getByText('$').isVisible();
+    return hasDollar ? '$' : '€';
+  }
 }
 
