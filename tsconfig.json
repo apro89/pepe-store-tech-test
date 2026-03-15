@@ -15,6 +15,7 @@
       "@config/*": ["config/*"],
       "@pages/*": ["pages/*"],
       "@fixtures/*": ["fixtures/*"],
+      "@helpers/*": ["helpers/*"],
       "@tests/*": ["tests/*"]
     }
   },

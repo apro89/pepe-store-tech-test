@@ -83,5 +83,18 @@ export class JoinNowPage extends BasePage {
     const hasDollar = await row.getByText('$').isVisible();
     return hasDollar ? '$' : '€';
   }
+
+  /** Returns unique currency symbols displayed in all price rows (Full access and 7 days Trial). */
+  async getUniqueCurrencySymbols(): Promise<string[]> {
+    const symbols = await Promise.all(
+      this.getAllPriceRows().map((row) => this.getCurrencySymbolInRow(row)),
+    );
+    return [...new Set(symbols)];
+  }
+
+  /** Clicks the "7 days Trial" row to make it the active/selected plan. */
+  async selectTrialRow(): Promise<void> {
+    await this.getTrialRow().click();
+  }
 }
 
