@@ -14,5 +14,14 @@ export class PrivateAreaPage extends BasePage {
   getWelcomeText(): Locator {
     return this.welcomeText;
   }
+
+  getLogoutButton(): Locator {
+    return this.page.getByRole('button', { name: /logout/i });
+  }
+
+  /** Locator for all product card labels (Product 0, Product 1, …). Use .count() for total. */
+  getProductCards(): Locator {
+    return this.page.getByText(/^Product \d+$/);
+  }
 }
 

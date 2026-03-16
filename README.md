@@ -103,7 +103,46 @@ Tests use the `x-country` HTTP header to simulate user location.
 
 ---
 
-- **Auth** (`auth.spec.ts`): Authentication-related flows.
+### Auth (`auth.spec.ts`)
+
+Authentication, signup validation, plan selection, Terms/Privacy links, and security checks.
+
+**Signup flow**
+
+- successful signup with valid credentials reaches private area — sign up, then assert welcome text, Logout button, 12 product cards; go to `/` and assert Logout still visible.
+- after signup, joinnow page shows Logout in header when logged in *(fixme)* — sign up, navigate to `/joinnow`, assert Logout button visible.
+- successful signup with 7 days Trial plan reaches private area — select Trial plan, sign up, assert welcome text visible.
+- shows error on invalid credentials and message text — sign up with wrong password, assert error alert visible and contains "invalid credentials".
+
+**Signup validation**
+
+- empty email shows error or blocks signup — submit without email; assert no redirect, form visible, email `validity.valueMissing`, form invalid, email has `required`.
+- invalid email format shows validation or error — submit with `test`; assert no redirect, form visible, email `typeMismatch`, form invalid, email has `type="email"`.
+- invalid email without @ blocks submit — submit with e.g. `userexample.com`; assert no redirect, form visible, typeMismatch, form invalid.
+- invalid email without domain after @ (user@.com) blocks submit — same pattern.
+- invalid email without local part (@example.com) blocks submit — same pattern.
+- invalid email with leading/trailing spaces blocks submit *(fixme)* — submit with spaces around email; assert validation blocks submit.
+- invalid email with double @ blocks submit — submit with `user@@example.com`; assert validation blocks submit.
+- invalid email without dot in domain (user@examplecom) blocks submit *(fixme)* — same pattern.
+- invalid email without TLD (user@example.) blocks submit — same pattern.
+- invalid email with dot before @ (user.@example.com) blocks submit *(fixme)* — same pattern.
+- invalid email with space in domain blocks submit — submit with space in domain; assert validation blocks submit.
+- invalid email with special chars in local part blocks submit — submit with e.g. `user<>@example.com`; assert validation blocks submit.
+- empty password shows error or blocks signup — submit without password; assert no redirect, form visible, password `valueMissing`, form invalid, password has `required`.
+
+**Plan price consistency**
+
+- Full access price is greater than Trial price — assert numeric Full access price &gt; Trial price.
+
+**Terms and Privacy links**
+
+- Terms of Service link is present and navigates away from joinnow on click *(fixme)* — click Terms link, assert URL is not joinnow.
+- Privacy Policy link is present and navigates away from joinnow on click *(fixme)* — click Privacy link, assert URL is not joinnow.
+
+**Security and robustness**
+
+- XSS in email is sanitized and no script execution — submit email containing `<script>alert(1)</script>`, assert no browser dialog (alert) opened.
+- very long email triggers validation or error *(fixme)* — submit 256+ char email, assert error or validation message visible.
 
 ## Path aliases (tsconfig)
 
